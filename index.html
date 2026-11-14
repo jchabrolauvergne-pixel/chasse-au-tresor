@@ -83,31 +83,25 @@
   #annee{width:3.6em}
   .sep{font-size:1.9rem;color:var(--encre-claire);padding-bottom:6px}
 
-  /* Sceau de cire = bouton */
+  /* Cœur de cire = bouton */
   .sceau{
-    position:relative;width:104px;height:104px;margin:0 auto;border:none;cursor:pointer;
-    border-radius:50%;
-    background:
-      radial-gradient(circle at 35% 30%, #d4483c 0%, var(--cire) 38%, var(--cire-sombre) 100%);
-    box-shadow:
-      inset -6px -8px 14px rgba(0,0,0,.45),
-      inset 5px 6px 10px rgba(255,140,120,.35),
-      0 6px 14px rgba(60,10,5,.55);
-    color:#f5d9b0;font-family:"Cinzel Decorative",serif;font-size:.78rem;letter-spacing:.06em;
-    transition:transform .15s ease, filter .15s ease;
+    position:relative;display:block;width:128px;height:118px;margin:0 auto;
+    border:none;background:none;cursor:pointer;padding:0;
+    filter:drop-shadow(0 7px 10px rgba(60,10,5,.55));
+    transition:transform .2s ease, filter .2s ease;
   }
-  .sceau::before{ /* bord irrégulier de la cire */
-    content:"";position:absolute;inset:-9px;border-radius:50%;z-index:-1;
-    background:var(--cire-sombre);
-    clip-path:polygon(50% 0,58% 4%,67% 2%,74% 8%,83% 9%,87% 17%,95% 22%,94% 31%,100% 39%,96% 48%,100% 57%,94% 65%,96% 75%,88% 80%,85% 89%,76% 91%,69% 98%,60% 95%,50% 100%,41% 95%,32% 99%,25% 91%,16% 89%,12% 80%,4% 75%,6% 65%,0 57%,4% 48%,0 39%,6% 31%,5% 22%,13% 17%,17% 9%,26% 8%,33% 2%,42% 4%);
+  .sceau svg.coeur{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .sceau .libelle{
+    position:absolute;left:0;right:0;top:40%;transform:translateY(-50%);
+    color:#f8dfb8;font-family:"Cinzel Decorative",serif;font-size:.82rem;letter-spacing:.08em;
+    text-shadow:0 1px 1px rgba(60,5,5,.7);pointer-events:none;
   }
-  .sceau .anneau{position:absolute;inset:12px;border-radius:50%;border:2px solid rgba(255,200,170,.28);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px}
-  .sceau svg{width:30px;height:30px}
-  .sceau:hover{transform:scale(1.05) rotate(-3deg);filter:brightness(1.08)}
-  .sceau:active{transform:scale(.96)}
-  .sceau:disabled{cursor:wait;filter:grayscale(.3) brightness(.85)}
-  .sceau.charge svg{animation:tourne 1.2s linear infinite}
-  @keyframes tourne{to{transform:rotate(360deg)}}
+  .sceau:hover{transform:scale(1.07)}
+  .sceau:hover svg.coeur{animation:bat 1s ease-in-out infinite}
+  .sceau:active{transform:scale(.95)}
+  .sceau:disabled{cursor:wait}
+  .sceau.charge{animation:bat .7s ease-in-out infinite}
+  @keyframes bat{0%,100%{transform:scale(1)}15%{transform:scale(1.09)}30%{transform:scale(.98)}45%{transform:scale(1.06)}}
 
   .message{min-height:1.6em;margin-top:22px;font-style:italic;font-size:1.1rem;color:var(--sang)}
   .tremble{animation:tremble .45s}
@@ -158,13 +152,26 @@
         <div class="champ"><label for="annee">Année</label><input id="annee" inputmode="numeric" maxlength="4" placeholder="AAAA" required></div>
       </div>
 
-      <button class="sceau" id="bouton" type="submit" aria-label="Briser le sceau">
-        <span class="anneau">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#f5d9b0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="16" r="1.2" fill="#f5d9b0"/>
-          </svg>
-          <span>Ouvrir</span>
-        </span>
+      <button class="sceau" id="bouton" type="submit" aria-label="Ouvrir">
+        <svg class="coeur" viewBox="0 0 128 118" aria-hidden="true">
+          <defs>
+            <radialGradient id="cire" cx="35%" cy="28%" r="80%">
+              <stop offset="0" stop-color="#e05a4b"/>
+              <stop offset=".4" stop-color="#9e1b16"/>
+              <stop offset="1" stop-color="#4f0a08"/>
+            </radialGradient>
+          </defs>
+          <!-- coulure irrégulière de la cire -->
+          <path d="M64 114 C58 108 48 101 38 93 C24 82 6 68 5 45 C4 24 18 6 37 6 C49 6 58 13 64 23 C70 13 79 6 91 6 C110 6 124 24 123 45 C122 68 104 82 90 93 C80 101 70 108 64 114 Z"
+                fill="#5e0d0a" transform="translate(-2 1) scale(1.02)"/>
+          <path d="M64 108 C51 97 14 74 13 45 C12 27 24 13 39 13 C50 13 59 21 64 31 C69 21 78 13 89 13 C104 13 116 27 115 45 C114 74 77 97 64 108 Z"
+                fill="url(#cire)"/>
+          <!-- empreinte du cachet -->
+          <path d="M64 92 C54 84 28 67 28 47 C28 35 36 27 45 27 C53 27 59 33 64 41 C69 33 75 27 83 27 C92 27 100 35 100 47 C100 67 74 84 64 92 Z"
+                fill="none" stroke="rgba(255,190,160,.35)" stroke-width="2"/>
+          <ellipse cx="42" cy="34" rx="10" ry="6" fill="rgba(255,200,180,.28)" transform="rotate(-30 42 34)"/>
+        </svg>
+        <span class="libelle">Ouvrir</span>
       </button>
       <p class="message" id="message" role="status" aria-live="polite"></p>
     </form>
